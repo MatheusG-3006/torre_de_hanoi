@@ -1,78 +1,132 @@
+//Nome: Matheus Gonçalves dos Santos RA:10439447
+//Nome: Jean Carlos Antunes Rocha RA: 10431939
+
 import java.util.Scanner;
 
-/*
-Nome: Matheus Gonçalves dos Santos RA:10439447
-Nome: Jean Carlos Antunes Rocha RA: 10431939
-*/
 
 public class jogoHanoi{        
     
-    public static void main(String[] args) {
+    private Torre[] torres;
+    private int totalDiscos;
+    private int movimentos;
 
-    Scanner sc = new Scanner(System.in);
+    public void jogohanoi(int totalDiscos){
+        this.totalDiscos = totalDiscos;
+        this.movimentos = 0;
+        this.torres = new Torre[3];
 
-    System.out.println("Bem-vindo ao Jogo da torre de Hanoi!\n");
-
-    System.out.println("Digite o tamanho da Torre: ");
-    int tamanho = sc.nextInt();
-
-    Torres[] torres = new Torres[3];
-    torres[0] = new Torres(tamanho);
-    torres[1] = new Torres(tamanho);
-    torres[2] = new Torres(tamanho);
-
-    for(int i = tamanho; i >= 1; i--){
-        torres[0].empilha(new Disco(i));
+        for(int i = 0; i<this.torres.length; i++){
+            this.torres[i] = new Torre(this.totalDiscos);
+        }
+        for(int i = this.totalDiscos; i >= 1; i--){
+            this.torres[0].empilha(new Disco(i));
+        }
     }
 
-    System.out.println("Digite a sua escolha: ");
-    int escolha = sc.nextInt();
+    public void jogar(){
+    
+        Scanner sc = new Scanner(System.in);
+        int escolha = 0;
+        do {
 
-    while(escolha)
+            System.out.println("\n--- MENU TORRE DE HANOI ---");
+            System.out.println("1 - Mover disco\n2 - Mostrar torres\n3 - Reiniciar jogo\n4 - Sair");
 
-    switch(escolha){
-        case 1:
-            //mover disco
-            System.out.println("Torre de origem: ");
-            int origem = sc.nextInt();
-            Torres torreOrigem = torres[origem - 1];
-            System.out.println("Torre de destino: ");
-            int destino = sc.nextInt();
-            Torres torreDestino = torres[destino - 1];
+            System.out.println("Digite a sua escolha: ");
+            escolha = sc.nextInt();
 
-            if(origem < 1 || origem > 3 || destino < 1 || destino > 3){
-                System.out.println("Torre inválida. Tente novamente.");
-                break;
+            switch(escolha){
+                case 1:
+                    //mover disco
+                    moverDisco(sc);
+                    break;
+                case 2:
+                    //mostrar torres
+                    mostrarTorres();
+                    break;
+                case 3:
+                    //reiniciar jogo
+                    reiniciarJogo();
+                    break;
+                case 4:
+                    //sair
+                    System.out.println("Obrigado por jogar!");
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+                    break;
             }
-            if(torreOrigem.estaVazia()){
-                System.out.println("Torre de origem vazia. Tente novamente.");
-                break;
-            }
-            if(torreOrigem.topo().getTamanho() > torreDestino.topo().getTamanho()){
-                System.out.println("Não é permitido mover um disco maior para cima de um disco menor. Tente novamente.");
-                break;
-            }
-            torreDestino.empilha(torreOrigem.desempilha());
-            break;
-        case 2:
-            //mostrar torres
-                for(int i = 0; i < torres.length; i++){
-                    System.out.println("Torre " + (i + 1) + ": " + torres[i].toString());
+        }while (escolha != 4);
+    }
+
+    public void moverDisco(Scanner sc){
+
+        System.out.println("Torre de origem: ");
+        int origem = sc.nextInt();
+        
+        System.out.println("Torre de destino: ");
+        int destino = sc.nextInt();
+        
+        if(origem < 1 || origem > 3 || destino < 1 || destino > 3){
+            System.out.println("Torre inválida. Tente novamente.");
+            return;
+        }
+
+        Torre torreOrigem = torres[origem - 1];
+        Torre torreDestino = torres[destino - 1];
+
+        if(torreOrigem.torreVazia()){
+            System.out.println("Torre de origem vazia. Tente novamente.");
+            return;
+        }
+        if(!torreDestino.torreVazia() && torreOrigem.topo().getTamanho() > torreDestino.topo().getTamanho()){
+            System.out.println("Não é permitido mover um disco maior para cima de um disco menor. Tente novamente.");
+            return;
+        }
+        torreDestino.empilha(torreOrigem.desempilha());
+        movimentos++;
+        verificarVitoria();
+    }
+
+    public void mostrarTorres() {
+    System.out.println("\nESTADO ATUAL DAS TORRES:");
+    
+        for (int nivel = totalDiscos - 1; nivel >= 0; nivel--) {
+            for (int t = 0; t < 3; t++) {
+                Disco d = torres[t].obterDisco(nivel);
+                
+                if (d != null) {
+                    
+                    String visualDisco = "";
+                    for(int i = 0; i < d.getTamanho(); i++) visualDisco += "*";
+                    
+                    System.out.printf("%-15s", visualDisco);
+                } else {
+                    
+                    System.out.printf("%-15s", "|");
                 }
-            break;
-        case 3:
-            //reiniciar jogo
-                for(int i = 0; i < torres.length; i++){
-                    torres[i] = new Torres(tamanho);
-                }
-            break;
-        case 4:
-            //sair
-            
-            break;
-        default:
-            System.out.println("Opção inválida. Tente novamente.");
-            break;
+            }
+            System.out.println(); 
+        }
+        
+        System.out.println("   TORRE_1        TORRE_2        TORRE_3\n");
+    }
+
+
+    public void reiniciarJogo(){
+        jogohanoi(this.totalDiscos);
+        System.out.println("Jogo reiniciado com " + this.totalDiscos + " discos.");
+    }
+
+    public void verificarVitoria(){
+        if(torres[1].getQuatidade() == this.totalDiscos || torres[2].getQuatidade() == this.totalDiscos){
+            System.out.println("Parabéns! Você venceu o jogo em " + this.movimentos + " movimentos!");
+            return;
         }
     }
 }
+
+    
+            
+    
+

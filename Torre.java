@@ -15,7 +15,11 @@ public class Torre{
         return true;
     }
 
-    private boolean torreVazia(){
+    public int getQuatidade(){
+        return this.topo + 1;
+    }
+
+    public boolean torreVazia(){
         if(this.topo == -1){
             return true; 
         }
@@ -37,8 +41,19 @@ public class Torre{
     return this.discosEmpilhados[this.topo--];
     }
 
-    public void exibirTorre(){
-        for(int i = this.topo; i >= 0; i--)
-            discosEmpilhados[i].exibir();
+    
+    public Disco topo(){
+        if(this.torreVazia()){
+            return null;
+        }
+        return this.discosEmpilhados[this.topo];
     }
+
+    public Disco obterDisco(int indice) {
+        if (indice >= 0 && indice <= topo) {
+            return discosEmpilhados[indice];
+        }
+        return null; // Retorna null se não houver disco naquela altura
+    }
+
 }
