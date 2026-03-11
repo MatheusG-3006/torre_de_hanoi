@@ -53,7 +53,7 @@ public class Torre{
         if (indice >= 0 && indice <= topo) {
             return discosEmpilhados[indice];
         }
-        return null; // Retorna null se não houver disco naquela altura
+        return null; 
     }
 
 }
