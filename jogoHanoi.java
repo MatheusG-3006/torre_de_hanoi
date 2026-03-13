@@ -125,8 +125,3 @@ public class jogoHanoi{
         }
     }
 }
-
-    
-            
-    
-
