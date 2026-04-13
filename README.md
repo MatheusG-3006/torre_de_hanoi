@@ -80,19 +80,21 @@ java Main
 
 ```
 === Torre de Hanói ===
-Informe o número de discos: 3
+"Bem-vindo ao jogo da Torre de Hanoi!");
+Digite o número de discos:
 
-Mover disco 1 de A para C
-Mover disco 2 de A para B
-Mover disco 1 de C para B
-Mover disco 3 de A para C
-Mover disco 1 de B para A
-Mover disco 2 de B para C
-Mover disco 1 de A para C
-
-Total de movimentos: 7
+"\n--- MENU TORRE DE HANOI ---");
+1 - Mover disco
+2 - Mostrar torres
+3 - Reiniciar jogo
+4 - Sair"
 ```
-
+| Opção | Função |
+|--------|--------------------|
+| 1      | Mover Discos       |
+| 2      | Mostra Torres      |
+| 3      | Reinicia o Jogo    |
+| 4      | Sai do Jogo        | 
 ---
 
 ## Conceitos Aplicados
