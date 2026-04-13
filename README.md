@@ -80,10 +80,10 @@ java Main
 
 ```
 === Torre de Hanói ===
-"Bem-vindo ao jogo da Torre de Hanoi!");
+"Bem-vindo ao jogo da Torre de Hanoi!"
 Digite o número de discos:
 
-"\n--- MENU TORRE DE HANOI ---");
+"\n--- MENU TORRE DE HANOI ---"
 1 - Mover disco
 2 - Mostrar torres
 3 - Reiniciar jogo
